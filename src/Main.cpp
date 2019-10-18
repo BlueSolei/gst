@@ -1,12 +1,8 @@
 #include <iostream>
 
 #include "gst.h"
+#include "tutorials.h"
 
 using namespace std;
 
-int main() {
-  cout << "Main calling gst.Do() ... " << endl;
-  gst gst;
-  gst.Do();
-  return 0;
-}
+int main(int argc, char **argv) { return basic_tutorial_1(argc, argv); }

@@ -24,9 +24,27 @@ add_executable(${CMAKE_PROJECT_NAME}
   src/Main.cpp
   src/gst.cpp
   src/gst.h
-  )
+		src/basic-tutorial-1.c src/tutorials.h)
 
-target_link_libraries(${CMAKE_PROJECT_NAME} ${CONAN_LIBS})
+set(GStreamerIncludeDirs
+		/Library/Frameworks/GStreamer.framework/Headers
+		/Library/Frameworks/GStreamer.framework/Versions/Current/include/gstreamer-1.0
+		/Library/Frameworks/GStreamer.framework/Versions/Current/include
+		/Library/Frameworks/GStreamer.framework/Versions/Current/include/glib-2.0
+		/Library/Frameworks/GStreamer.framework/Versions/Current/lib/glib-2.0/include
+		)
+set(GStreamerLibDirs
+		/Library/Frameworks/GStreamer.framework/Libraries
+		)
+set(GStreamerLibs
+		gstreamer-1.0
+		gobject-2.0
+		glib-2.0
+		intl
+		)
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${GStreamerIncludeDirs})
+target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE ${GStreamerLibDirs})
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${CONAN_LIBS} ${GStreamerLibs})
 
 # Tests
 set(TEST_FILES
