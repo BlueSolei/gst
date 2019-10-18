@@ -5,4 +5,4 @@
 
 using namespace std;
 
-int main(int argc, char **argv) { return basic_tutorial_1(argc, argv); }
+int main(int argc, char **argv) { return basic_tutorial_2(argc, argv); }

@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 int basic_tutorial_1(int argc, char **argv);
+int basic_tutorial_2(int argc, char **argv);
 
 #ifdef __cplusplus
 }
