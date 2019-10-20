@@ -2,7 +2,7 @@
 
 int basic_tutorial_2(int argc, char **argv)
 {
-  GstElement *pipeline, *source, *sink;
+  GstElement *pipeline, *source, *sink, *volume;
   GstBus *bus;
   GstMessage *msg;
   GstStateChangeReturn ret;
@@ -11,6 +11,7 @@ int basic_tutorial_2(int argc, char **argv)
 
   // create the elements
   source = gst_element_factory_make("audiotestsrc", "source");
+  volume = gst_element_factory_make("volume", "volume");
   sink = gst_element_factory_make("autoaudiosink", "sink");
 
   // create the empty pipeline
@@ -21,16 +22,20 @@ int basic_tutorial_2(int argc, char **argv)
     return -1;
   }
 
+  g_object_set(volume, "volume", 0.7, NULL);
+  gdouble v = 0.0;
+  g_object_get(G_OBJECT(volume), "volume", &v);
+  g_print("Volume level is %lf", v);
+
   // build the pipline
-  gst_bin_add_many(GST_BIN(pipeline), source, sink, NULL);
-  if (gst_element_link(source, sink) != TRUE)
+  gst_bin_add_many(GST_BIN(pipeline), source, volume, sink, NULL);
+  if (!gst_element_link(source, volume) || !gst_element_link(volume, sink))
   {
-    g_printerr("Source & Sink failed to link\n");
+    g_printerr("Source --> volume --> Sink failed to link\n");
     gst_object_unref(pipeline);
     return -1;
   }
 
-  g_object_set(source, "pattern", 0, NULL);
   ret = gst_element_set_state(pipeline, GST_STATE_PLAYING);
   if (ret == GST_STATE_CHANGE_FAILURE)
   {
@@ -40,7 +45,8 @@ int basic_tutorial_2(int argc, char **argv)
   }
 
   bus = gst_element_get_bus(pipeline);
-  msg = gst_bus_timed_pop_filtered(bus, GST_CLOCK_TIME_NONE, (uint)GST_MESSAGE_ERROR | (uint)GST_MESSAGE_EOS);
+  msg = gst_bus_timed_pop_filtered(bus, GST_CLOCK_TIME_NONE,
+                                   (uint) GST_MESSAGE_ERROR | (uint) GST_MESSAGE_EOS);
 
   // parse message
   if (msg != NULL)
