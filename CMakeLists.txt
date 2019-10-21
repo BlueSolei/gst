@@ -24,7 +24,7 @@ add_executable(${CMAKE_PROJECT_NAME}
   src/Main.cpp
   src/gst.cpp
   src/gst.h
-		src/basic-tutorial-1.c src/tutorials.h src/basic-tutorial-2.c src/basic-tutorial-3.c)
+		src/basic-tutorial-1.c src/tutorials.h src/basic-tutorial-2.c src/basic-tutorial-3.c src/basic-tutorial-4.c)
 
 set(GStreamerIncludeDirs
 		/Library/Frameworks/GStreamer.framework/Headers
