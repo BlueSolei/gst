@@ -43,7 +43,7 @@ set(GStreamerLibs
 		intl
 		)
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${GStreamerIncludeDirs})
-target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE ${GStreamerLibDirs})
+#target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE ${GStreamerLibDirs})
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${CONAN_LIBS} ${GStreamerLibs})
 
 # Tests
@@ -58,6 +58,12 @@ set(TEST_NAME ${CMAKE_PROJECT_NAME}Test)
 add_executable(${TEST_NAME} ${TEST_FILES})
 target_link_libraries(${TEST_NAME} ${CONAN_LIBS})
 
+add_library(WatterMarkApplyer SHARED
+		src/gstwatermarkapplyer.c
+		src/gstwatermarkapplyer.h)
+target_include_directories(WatterMarkApplyer PRIVATE ${GStreamerIncludeDirs})
+target_link_directories(WatterMarkApplyer PRIVATE ${GStreamerLibDirs})
+target_link_libraries(WatterMarkApplyer PRIVATE ${CONAN_LIBS} ${GStreamerLibs})
 
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/env/
 DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
